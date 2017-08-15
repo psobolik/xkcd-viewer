@@ -1,0 +1,28 @@
+{
+  "name": "xkcd-viewer",
+  "version": "0.0.1",
+  "description": "An xkcd viewer.",
+  "main": "app/index.js",
+  "repository": "https://github.com/psobolik/xkcd-viewer",
+  "author": "Paul Sobolik",
+  "license": "MIT",
+  "scripts": {
+    "start": "npm run build && npm run run",
+    "run": "electron .",
+    "dev": "electron . --debug",
+    "build": "yarn install && grunt",
+    "lint": "standard"
+  },
+  "devDependencies": {
+    "electron": "^1.7.5",
+    "grunt": "^1.0.1",
+    "grunt-contrib-copy": "^1.0.0",
+    "standard": "^10.0.3",
+    "webpack": "^3.5.4"
+  },
+  "dependencies": {
+    "angular": "^1.6.5",
+    "bootstrap": "^3.3.7",
+    "jquery": "^3.2.1"
+  }
+}

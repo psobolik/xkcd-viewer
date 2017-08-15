@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html ng-app="xkcdViewerApp">
+  <head>
+    <meta charset="UTF-8">
+    <title>xkcd Viewer</title>
+    <link rel="stylesheet" href="./lib/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="./styles/app.css"/>
+  </head>
+  <body ng-controller="MainController" class="ng-cloak">
+    <div ng-show="error" class="alert alert-danger check-element animate-show-hide" role="alert">{{ error }}</div>
+    <div>
+      <h2>{{ imageInfo.safe_title }}</h2>
+      <h5 class="ng-cloak">#{{ imageInfo.num }}  {{ imageInfo.date | date:'yyyy-MM-dd' }}</h5>
+      <img id="image" alt="{{ imageInfo.alt }}" ng-src="{{ imageInfo.img }}"/>
+      <nav aria-label="Navigation">
+        <ul class="pagination">
+          <li>
+            <a href="#" ng-disabled="showingFirstComic" class="btn" ng-click="loadFirstComic($event)" >
+              <span aria-hidden="true">&laquo;</span> First
+            </a>
+          </li>
+          <li>
+            <a href="#" ng-disabled="showingFirstComic" class="btn" ng-click="loadPrevComic($event)">
+              <span aria-hidden="true">&lsaquo;</span> Previous
+            </a>
+          </li>
+          <li>
+            <a href="#" class="btn" ng-click="loadRandomComic($event)">
+              Random
+            </a>
+          </li>
+          <li>
+            <a href="#" ng-disabled="showingLastComic" class="btn" ng-click="loadNextComic($event)">
+              Next <span aria-hidden="true">&rsaquo;</span>
+            </a>
+          </li>
+          <li>
+            <a href="#" ng-disabled="showingLastComic" class="btn" ng-click="loadLastComic($event)">
+              Last <span aria-hidden="true">&raquo;</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </body>
+  <script>
+    $ = jQuery = require('./lib/scripts/jquery.min.js')
+    require('./lib/scripts/bootstrap.min.js')
+    require('./lib/scripts/angular.min.js')
+    require('./scripts/app')
+  </script>
+</html>
