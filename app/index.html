@@ -12,8 +12,9 @@
     <div ng-hide="error">
       <h2>{{ imageInfo.safe_title }}</h2>
       <h5 class="ng-cloak">#{{ imageInfo.num }}  {{ imageInfo.date | date:'yyyy-MM-dd' }}</h5>
-      <a ng-href="#" ng-click="gotoXkcd($event)"><img id="image" alt="{{ imageInfo.alt }}" ng-src="{{ imageInfo.img }}"/></a>
-      <h5 class="ng-cloak small">[{{ imageInfo.alt }}]</h5>
+      <a href="#" ng-click="gotoXkcd($event)">
+        <img id="image" title="{{ imageInfo.alt }}" ng-src="{{ imageInfo.img }}"/>
+      </a>
     </div>
     <nav aria-label="Navigation">
         <ul class="pagination">
