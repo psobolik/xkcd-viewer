@@ -7,7 +7,18 @@
     <link rel="stylesheet" href="./styles/app.css"/>
   </head>
   <body ng-controller="MainController" class="ng-cloak">
-    <a href="#top"></a>
+    <a href="#menu"></a>
+    <div class="btn-group">
+        <button class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-label="menu"><span class="glyphicon glyphicon-menu-hamburger" aria-hidden="true" ></span></button>
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenu">
+          <li><a href="#" ng-click='gotoXkcd($event, true)'>Open the <dfn>xkcd</dfn> web site</a></li>
+          <li><hr class="menu-spacer"/></li>
+          <li><a href="#" ng-click='showAbout($event)'>About</a></li>
+            <li><a href="#" ng-click='showLicense($event)'>Licence</a></li>
+            <li><hr class="menu-spacer"/></li>
+            <li><a href="#" ng-click='exitApp($event)'>Exit</a></li>
+          </ul>
+        </div>
     <div ng-show="error" class="alert alert-danger check-element animate-show-hide" role="alert">{{ error }}</div>
     <div ng-hide="error">
       <h2>{{ imageInfo.safe_title }}</h2>
@@ -45,8 +56,12 @@
           </li>
         </ul>
       </nav>
-      <input type="number" ng-model="imageInfo.num" min="1" max="{{ latestComicNum }}"/>
-      <a href="#" class="btn" ng-click="loadComic($event, imageInfo.num)">Open</a>
+      <div class="input-group">
+          <span class="input-group-btn">
+            <button type="button" id="button-addon" class="btn" ng-click="loadComic($event, imageInfo.num)">Open comic #</button>
+          </span>
+          <input type="number" style="width:10em;" class="form-control" placeholder="Comic #" ng-model="imageInfo.num" min="1" max="{{ latestComicNum }}" aria-describedby="button-addon"/>
+      </div>
     </body>
   <script>
     $ = jQuery = require('./lib/scripts/jquery.min.js')

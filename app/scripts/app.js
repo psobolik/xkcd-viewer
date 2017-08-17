@@ -1,6 +1,8 @@
 'use strict'
 
-const {shell} = require('electron')
+const electron = require('electron')
+const shell = electron.shell
+const ipc = electron.ipcRenderer
 
 angular // eslint-disable-line
   .module('xkcdViewerApp', [])
@@ -11,7 +13,7 @@ angular // eslint-disable-line
       var url = getUrl(n)
       $http.get(url)
       .then((data) => {
-        console.log(data)
+        // console.log(data)
         var imageInfo = data.data
         if (n === 0) $scope.latestComicNum = imageInfo.num
         $scope.imageInfo = imageInfo
@@ -24,7 +26,7 @@ angular // eslint-disable-line
         $scope.error = 'Error getting comic.'
         $scope.showingFirstComic = $scope.showingLastComic = false
       })
-      $anchorScroll('top')
+      $anchorScroll('menu')
     }
     var getUrl = (n) => {
       let folder = n > 0 ? (n + '/') : ''
@@ -64,10 +66,22 @@ angular // eslint-disable-line
       else if (n > $scope.latestComicNum) $scope.loadLastComic()
       else loadComic(n)
     }
-    $scope.gotoXkcd = (event) => {
+    $scope.gotoXkcd = (event, home) => {
       event && event.preventDefault()
-      let url = `https://xkcd.com/${$scope.imageInfo.num}`
+      let url = `https://xkcd.com/${home ? '' : $scope.imageInfo.num}`
       shell.openExternal(url)
+    }
+    $scope.showAbout = (event) => {
+      event && event.preventDefault()
+      ipc.send('show-about')
+    }
+    $scope.showLicense = (event) => {
+      event && event.preventDefault()
+      ipc.send('show-license')
+    }
+    $scope.exitApp = (event) => {
+      event && event.preventDefault()
+      ipc.send('exit-app')
     }
     // Load the latest comic to start
     loadComic(0)

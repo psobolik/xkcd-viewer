@@ -1,66 +1,79 @@
 'use strict'
 
 const electron = require('electron')
-// Module to control application life.
 const app = electron.app
-// Module to create native browser window.
+const ipc = electron.ipcMain
+const Menu = electron.Menu
 const BrowserWindow = electron.BrowserWindow
+
+// const appMenu = require('./menus/app.menu')
 
 const path = require('path')
 const url = require('url')
 
 const debug = /--debug/.test(process.argv[2])
 
-// Keep a global reference of the window object, if you don't, the window will
-// be closed automatically when the JavaScript object is garbage collected.
-let mainWindow
+let mainWindow,
+  aboutDialog,
+  licenseDialog
 
-function createWindow () {
-  // Create the browser window.
-  mainWindow = new BrowserWindow({ width: 800, height: 600 })
+function showMainWindow (debug) {
+  mainWindow = createMainWindow(debug)
 
-  // and load the index.html of the app.
-  mainWindow.loadURL(url.format({
-    pathname: path.join(__dirname, 'index.html'),
-    protocol: 'file:',
-    slashes: true
-  }))
-
-  // Open the DevTools.
+  // Maybe open the DevTools.
   if (debug) {
     mainWindow.webContents.openDevTools()
   }
 
   // Emitted when the window is closed.
   mainWindow.on('closed', function () {
-    // Dereference the window object, usually you would store windows
-    // in an array if your app supports multi windows, this is the time
-    // when you should delete the corresponding element.
     mainWindow = null
   })
+  Menu.setApplicationMenu(null)
 }
 
-// This method will be called when Electron has finished
-// initialization and is ready to create browser windows.
-// Some APIs can only be used after this event occurs.
-app.on('ready', createWindow)
+function createMainWindow (debug) {
+  mainWindow = new BrowserWindow({ width: 800, height: 600, frame: 'hidden' })
+  mainWindow.loadURL(url.format({
+    pathname: path.join(__dirname, 'index.html'),
+    protocol: 'file:',
+    slashes: true
+  }))
+  return mainWindow
+}
+
+function showAboutWindow () {
+  aboutDialog = createDialog('/windows/about/about.html', 350, 200)
+  if (debug) aboutDialog.webContents.openDevTools()
+  aboutDialog.on('closed', () => { aboutDialog = null })
+}
+const showLicenseWindow = () => {
+  licenseDialog = createDialog('/windows/license/license.html', 600, 450)
+  licenseDialog.on('closed', () => { licenseDialog = null })
+}
+const createDialog = (filePath, width, height) => {
+  let modalWindow = new BrowserWindow({ width, height, resizable: false, minimizable: false, maximizable: false, skipTaskbar: true, alwaysOnTop: true })
+  modalWindow.setMenu(null)
+  modalWindow.loadURL(path.join('file://', __dirname, filePath))
+  return modalWindow
+}
+
+app.on('ready', () => showMainWindow(debug))
 
 // Quit when all windows are closed.
 app.on('window-all-closed', function () {
-  // On OS X it is common for applications and their menu bar
-  // to stay active until the user quits explicitly with Cmd + Q
   if (process.platform !== 'darwin') {
     app.quit()
   }
 })
 
 app.on('activate', function () {
-  // On OS X it's common to re-create a window in the app when the
-  // dock icon is clicked and there are no other windows open.
   if (mainWindow === null) {
-    createWindow()
+    showMainWindow(debug)
   }
 })
 
-// In this file you can include the rest of your app's specific main process
-// code. You can also put them in separate files and require them here.
+// IPC Handlers
+ipc.on('show-about', showAboutWindow)
+ipc.on('show-license', showLicenseWindow)
+ipc.on('exit-app', () => { app.quit() })

@@ -1,33 +1,57 @@
 module.exports = (grunt) => {
+  const ifNeeded = require('./grunt.ifNeeded')(grunt)
+  require('./grunt.task.copysettings')(grunt)
+  const config = {
+    scriptLib: 'app/lib/scripts/',
+    styleLib: 'app/lib/css/',
+    fontLib: 'app/lib/fonts/',
+    jqueryDist: 'node_modules/jquery/dist/',
+    angularDist: 'node_modules/angular/',
+    bootstrapDist: 'node_modules/bootstrap/dist/'
+  }
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
+    copysettings: {
+      options: {
+        fields: ['productName', 'version', 'description', 'copyright']
+      },
+      build: {
+        src: 'package.json',
+        dest: 'app/'
+      }
+    },
     copy: {
       dist: {
         files: [{
           expand: true,
-          cwd: 'node_modules/angular/',
-          src: ['angular.min.js'],
-          dest: 'app/lib/scripts/'
-        }, {
-          expand: true,
-          cwd: 'node_modules/bootstrap/dist/js/',
-          src: ['bootstrap.min.js'],
-          dest: 'app/lib/scripts/'
-        }, {
-          expand: true,
-          cwd: 'node_modules/bootstrap/dist/fonts',
-          src: ['*'],
-          dest: 'app/lib/fonts/'
-        }, {
-          expand: true,
-          cwd: 'node_modules/bootstrap/dist/css/',
-          src: ['bootstrap.min.css'],
-          dest: 'app/lib/css/'
-        }, {
-          expand: true,
-          cwd: 'node_modules/jquery/dist/',
+          cwd: config.jqueryDist,
           src: ['jquery.min.js'],
-          dest: 'app/lib/scripts/'
+          dest: config.scriptLib,
+          filter: (target) => { return ifNeeded.srcIsNewer(target, config.scriptLib) }
+        }, {
+          expand: true,
+          cwd: config.angularDist,
+          src: ['angular.min.js'],
+          dest: config.scriptLib,
+          filter: (target) => { return ifNeeded.srcIsNewer(target, config.scriptLib) }
+        }, {
+          expand: true,
+          cwd: `${config.bootstrapDist}js/`,
+          src: ['bootstrap.min.js'],
+          dest: config.scriptLib,
+          filter: (target) => { return ifNeeded.srcIsNewer(target, config.scriptLib) }
+        }, {
+          expand: true,
+          cwd: `${config.bootstrapDist}fonts/`,
+          src: ['*'],
+          dest: config.fontLib,
+          filter: (target) => { return ifNeeded.srcIsNewer(target, config.fontLib) }
+        }, {
+          expand: true,
+          cwd: `${config.bootstrapDist}css/`,
+          src: ['bootstrap.min.css'],
+          dest: config.styleLib,
+          filter: (target) => { return ifNeeded.srcIsNewer(target, config.styleLib) }
         }]
       }
     }
@@ -35,5 +59,5 @@ module.exports = (grunt) => {
 
   grunt.loadNpmTasks('grunt-contrib-copy')
 
-  grunt.registerTask('default', ['copy'])
+  grunt.registerTask('default', ['copy', 'copysettings'])
 }

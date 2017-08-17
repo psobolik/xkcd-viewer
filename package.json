@@ -1,7 +1,9 @@
 {
   "name": "xkcd-viewer",
+  "productName": "xkcd Viewer",
   "version": "0.0.1",
   "description": "An xkcd viewer.",
+  "copyright": "Copyright (c) 2017 Paul Sobolik",
   "main": "app/index.js",
   "repository": "https://github.com/psobolik/xkcd-viewer",
   "author": "Paul Sobolik",
@@ -9,7 +11,7 @@
   "scripts": {
     "start": "npm run build && npm run run",
     "run": "electron .",
-    "dev": "electron . --debug",
+    "debug": "electron . --debug",
     "build": "yarn install && grunt",
     "lint": "standard"
   },
