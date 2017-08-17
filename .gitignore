@@ -3,3 +3,4 @@ bower_components
 packages
 lib
 app/package.json
+dist/
