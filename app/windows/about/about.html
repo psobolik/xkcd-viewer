@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html ng-app="xkcdViewerAbout">
+  <head>
+    <meta charset="UTF-8">
+    <title>About</title>
+    <link rel="stylesheet" href="../../lib/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="../../styles/app.css"/>
+  </head>
+  <body ng-controller="AboutController">
+      <h1>{{ productName }}</h1>
+      <p>Version {{ version }}<p>
+      <p>{{ copyright }}<p>
+  </body>
+  <script>
+    require('../../lib/scripts/angular.min')
+    require('./about')
+  </script>
+</html>
