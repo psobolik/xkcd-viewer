@@ -28,6 +28,9 @@ function showMainWindow (debug) {
   // Emitted when the window is closed.
   mainWindow.on('closed', function () {
     mainWindow = null
+    // Also close the (modeless) dialogs
+    if (aboutDialog) aboutDialog.close()
+    if (licenseDialog) licenseDialog.close()
   })
   Menu.setApplicationMenu(null)
 }
@@ -52,6 +55,7 @@ const showLicenseWindow = () => {
   licenseDialog.on('closed', () => { licenseDialog = null })
 }
 const createDialog = (filePath, width, height) => {
+  // These are modeless dialogs
   let modalWindow = new BrowserWindow({ width, height, resizable: false, minimizable: false, maximizable: false, skipTaskbar: true, alwaysOnTop: true })
   modalWindow.setMenu(null)
   modalWindow.loadURL(path.join('file://', __dirname, filePath))
