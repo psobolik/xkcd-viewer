@@ -1,15 +1,15 @@
 'use strict'
 
 module.exports = function (grunt) {
-  var isWindows = process.platform === 'win32'
-  var path = require('path')
+  let isWindows = process.platform === 'win32'
+  let path = require('path')
 
   grunt.registerMultiTask('copysettings', 'Copy selected settings to a new location', function () {
-    var unixifyPath = function (filepath) {
+    let unixifyPath = function (filepath) {
       if (isWindows) {
         return filepath.toString().replace(/\\/g, '/')
       } else {
-        return filepath
+        return filepath.toString()
       }
     }
     // We only process the first file

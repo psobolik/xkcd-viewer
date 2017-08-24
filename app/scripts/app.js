@@ -7,14 +7,14 @@ const ipc = electron.ipcRenderer
 angular // eslint-disable-line
   .module('xkcdViewerApp', [])
   .controller('MainController', ['$scope', '$http', '$anchorScroll', ($scope, $http, $anchorScroll) => {
-    var loadComic = (n) => {
+    const loadComic = (n) => {
       $scope.error = 'Loading...'
       $scope.imageInfo = {}
-      var url = getUrl(n)
+      const url = getUrl(n)
       $http.get(url)
       .then((data) => {
         // console.log(data)
-        var imageInfo = data.data
+        const imageInfo = data.data
         if (n === 0) $scope.latestComicNum = imageInfo.num
         $scope.imageInfo = imageInfo
         imageInfo.date = new Date(imageInfo.year, imageInfo.month - 1, imageInfo.day)
@@ -22,14 +22,14 @@ angular // eslint-disable-line
         $scope.showingFirstComic = imageInfo.num === 1
         $scope.showingLastComic = imageInfo.num === $scope.latestComicNum
       })
-      .catch((e) => {
+      .catch(() => {
         $scope.error = 'Error getting comic.'
         $scope.showingFirstComic = $scope.showingLastComic = false
       })
       $anchorScroll('menu')
     }
-    var getUrl = (n) => {
-      let folder = n > 0 ? (n + '/') : ''
+    const getUrl = (n) => {
+      const folder = n > 0 ? (n + '/') : ''
       return `https://xkcd.com/${folder}info.0.json`
     }
     $scope.loadFirstComic = (event) => {
@@ -68,7 +68,7 @@ angular // eslint-disable-line
     }
     $scope.gotoXkcd = (event, home) => {
       event && event.preventDefault()
-      let url = `https://xkcd.com/${home ? '' : $scope.imageInfo.num}`
+      const url = `https://xkcd.com/${home ? '' : $scope.imageInfo.num}`
       shell.openExternal(url)
     }
     $scope.showAbout = (event) => {

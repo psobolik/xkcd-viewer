@@ -5,14 +5,14 @@
 
   const { version: appVersion, productName: appName } = require('../../package.json')
 
-  let fileTemplate = {
+  const fileTemplate = {
     label: 'File',
     submenu: [{
       label: 'Exit',
       role: 'close'
     }]
   }
-  let editTemplate = {
+  const editTemplate = {
     label: 'Edit',
     submenu: [{
       label: (() => { return (process.platform === 'win32') ? 'View in Explorer' : (process.platform === 'darwin') ? 'View in Finder' : 'View' })(),
@@ -27,7 +27,7 @@
       click (menuItem, browserWindow) { browserWindow.webContents.send('copy-all') }
     }]
   }
-  let viewTemplate = {
+  const viewTemplate = {
     label: 'View',
     submenu: [{
       label: 'Toggle Full Screen',
@@ -39,7 +39,7 @@
       }
     }]
   }
-  let windowTemplate = {
+  const windowTemplate = {
     label: 'Window',
     role: 'window',
     submenu: [{
@@ -57,7 +57,7 @@
       role: 'front'
     }]
   }
-  let helpTemplate = {
+  const helpTemplate = {
     label: 'Help',
     role: 'help',
     submenu: [{
@@ -66,7 +66,7 @@
     }]
   }
 
-  let macTemplate = {
+  const macTemplate = {
     label: appName,
     submenu: [{
       label: `About ${appName}`,
