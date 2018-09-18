@@ -9,27 +9,27 @@ angular // eslint-disable-line
   .controller('MainController', ['$scope', '$http', '$anchorScroll', ($scope, $http, $anchorScroll) => {
     const loadComic = (n) => {
       $scope.error = 'Loading...'
-      $scope.imageInfo = { num:null, year:null, month:null, day:null, img:null, safe_title:null, alt:null, date:null }
+      $scope.imageInfo = {}
       const url = getUrl(n)
       $http.get(url)
-        .then((data) => {
-          console.log(data)
-          const imageInfo = data.data
-          if (n === 0) $scope.latestComicNum = imageInfo.num
-          $scope.imageInfo = imageInfo
-          imageInfo.date = new Date(imageInfo.year, imageInfo.month - 1, imageInfo.day)
-          $scope.error = null
-          $scope.showingFirstComic = imageInfo.num === 1
-          $scope.showingLastComic = imageInfo.num === $scope.latestComicNum
-        })
-        .catch(() => {
-          $scope.error = 'Error getting comic.'
-          $scope.showingFirstComic = $scope.showingLastComic = false
-        })
+      .then((data) => {
+        // console.log(data)
+        const imageInfo = data.data
+        if (n === 0) $scope.latestComicNum = imageInfo.num
+        $scope.imageInfo = imageInfo
+        imageInfo.date = new Date(imageInfo.year, imageInfo.month - 1, imageInfo.day)
+        $scope.error = null
+        $scope.showingFirstComic = imageInfo.num === 1
+        $scope.showingLastComic = imageInfo.num === $scope.latestComicNum
+      })
+      .catch(() => {
+        $scope.error = 'Error getting comic.'
+        $scope.showingFirstComic = $scope.showingLastComic = false
+      })
       $anchorScroll('menu')
     }
-    const getUrl = (n) => {
-      const folder = n > 0 ? (n + '/') : ''
+    var getUrl = (n) => {
+      let folder = n > 0 ? (n + '/') : ''
       return `https://xkcd.com/${folder}info.0.json`
     }
     $scope.loadFirstComic = (event) => {

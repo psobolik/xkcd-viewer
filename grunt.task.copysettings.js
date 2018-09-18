@@ -1,11 +1,11 @@
 'use strict'
 
-module.exports = function (grunt) {
+module.exports = (grunt) => {
   const isWindows = process.platform === 'win32'
   const path = require('path')
 
   grunt.registerMultiTask('copySettings', 'Copy selected settings to a new location', function () {
-    const fixPath = function (filePath) {
+    var unixifyPath = function (filepath) {
       if (isWindows) {
         return filePath.toString().replace(/\\/g, '/')
       } else {
@@ -19,7 +19,7 @@ module.exports = function (grunt) {
     let isExpandedPair = filePair.orig.expand || false
     outfile = isExpandedPair ? outfile : path.join(outfile, infile)
     if (grunt.file.isFile(infile)) {
-      let options = this.options({
+      const options = this.options({
         fields: null,
         space: 2
       })
