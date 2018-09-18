@@ -1,6 +1,6 @@
 module.exports = (grunt) => {
   const ifNeeded = require('./grunt.ifNeeded')(grunt)
-  require('./grunt.task.copysettings')(grunt)
+  require('./grunt.task.copySettings')(grunt)
   const config = {
     scriptLib: 'app/lib/scripts/',
     styleLib: 'app/lib/css/',
@@ -11,7 +11,7 @@ module.exports = (grunt) => {
   }
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
-    copysettings: {
+    copySettings: {
       options: {
         fields: ['productName', 'version', 'description', 'copyright']
       },
@@ -59,5 +59,5 @@ module.exports = (grunt) => {
 
   grunt.loadNpmTasks('grunt-contrib-copy')
 
-  grunt.registerTask('default', ['copy', 'copysettings'])
+  grunt.registerTask('default', ['copy', 'copySettings'])
 }

@@ -18,7 +18,7 @@ let mainWindow,
   licenseDialog
 
 function showMainWindow (debug) {
-  mainWindow = createMainWindow(debug)
+  mainWindow = createMainWindow()
 
   // Maybe open the DevTools.
   if (debug) {
@@ -35,8 +35,8 @@ function showMainWindow (debug) {
   Menu.setApplicationMenu(null)
 }
 
-function createMainWindow (debug) {
-  mainWindow = new BrowserWindow({ width: 800, height: 600, frame: 'hidden' })
+function createMainWindow () {
+  mainWindow = new BrowserWindow({ width: 800, height: 600 })
   mainWindow.loadURL(url.format({
     pathname: path.join(__dirname, 'index.html'),
     protocol: 'file:',
