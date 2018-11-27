@@ -4,12 +4,12 @@ module.exports = (grunt) => {
   const isWindows = process.platform === 'win32'
   const path = require('path')
 
-  grunt.registerMultiTask('copysettings', 'Copy selected settings to a new location', function () {
-    const unixifyPath = (filepath) => {
+  grunt.registerMultiTask('copySettings', 'Copy selected settings to a new location', function () {
+    const unixifyPath = (filePath) => {
       if (isWindows) {
-        return filepath.toString().replace(/\\/g, '/')
+        return filePath.toString().replace(/\\/g, '/')
       } else {
-        return filepath.toString()
+        return filePath.toString()
       }
     }
     // We only process the first file
