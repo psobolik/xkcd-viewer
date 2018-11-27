@@ -28,8 +28,8 @@ angular // eslint-disable-line
       })
       $anchorScroll('menu')
     }
-    const getUrl = (n) => {
-      const folder = n > 0 ? (n + '/') : ''
+    var getUrl = (n) => {
+      let folder = n > 0 ? (n + '/') : ''
       return `https://xkcd.com/${folder}info.0.json`
     }
     $scope.loadFirstComic = (event) => {
