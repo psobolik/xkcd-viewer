@@ -1,0 +1,1 @@
+**Notice:** Github's *dependabot* has identified security risks in this application. It recommends using a newer version of Electron, but I'm not going to do that. The application uses Angular, which as far as I can tell isn't sufficiently secure to run in a newer, more secure version of Electron. I only wrote it for fun, anyway.
